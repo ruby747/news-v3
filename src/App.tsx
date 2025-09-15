@@ -8,6 +8,7 @@ export function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeId, setActiveId] = useState<string | undefined>(undefined);
+  const [dataSource, setDataSource] = useState<string | undefined>(undefined);
   const [topics, setTopics] = useState<
     Array<{
       id: string;
@@ -31,6 +32,7 @@ export function App() {
         const data = await fetchTrendsData();
         if (!data) throw new Error('트렌드 데이터를 불러올 수 없습니다.');
         setTopics(data.topics ?? []);
+        setDataSource(data.source);
         setActiveId(data.topics?.[0]?.id);
       } catch (e: any) {
         setError(e?.message ?? '오류가 발생했습니다.');
@@ -49,6 +51,12 @@ export function App() {
         {error && (
           <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded">
             {error}
+          </div>
+        )}
+        {!error && (
+          <div className="mb-3 text-xs text-gray-500">
+            <span>데이터 소스: {dataSource === 'google-trends-realtime' ? '실시간' : dataSource === 'google-trends-daily-rss' ? '일간 RSS' : dataSource === 'google-trends-rss' ? '일간 RSS' : dataSource === 'google-trends-realtimetrends' ? '실시간' : dataSource || '알 수 없음'}</span>
+            {topics?.length ? <span className="ml-2">토픽 {topics.length}개</span> : null}
           </div>
         )}
         <TrendingTopics topics={topics} activeId={activeId} onSelect={setActiveId} />
