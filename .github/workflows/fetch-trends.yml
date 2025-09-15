@@ -20,7 +20,10 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Fetch Google Trends Realtime and build JSON
+      - name: Install XML parser for RSS fallback
+        run: npm i fast-xml-parser@^4 --no-save
+
+      - name: Fetch Google Trends (Realtime with RSS fallback) and build JSON
         run: node scripts/fetch-trends.mjs
 
       - name: Commit changes
