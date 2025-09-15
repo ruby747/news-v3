@@ -1,0 +1,55 @@
+{
+  "updatedAt": "2025-01-01T00:00:00.000Z",
+  "source": "google-trends-rss-sample",
+  "geo": "KR",
+  "topics": [
+    {
+      "id": "t1",
+      "title": "코로나19 백신 접종",
+      "approxTraffic": "12,000+",
+      "image": "https://via.placeholder.com/640x360?text=Trend",
+      "articles": [
+        {
+          "title": "백신 접종률 80% 돌파",
+          "url": "https://news.example.com/a",
+          "source": "연합뉴스",
+          "snippet": "국내 백신 접종률이 80%를 넘어...",
+          "image": "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b",
+          "publishedAt": "1시간 전"
+        },
+        {
+          "title": "신규 백신 승인 심사 착수",
+          "url": "https://news.example.com/b",
+          "source": "KBS",
+          "snippet": "식약처는 신규 백신에 대한...",
+          "image": "https://images.unsplash.com/photo-1584036561566-baf8f5f1b144",
+          "publishedAt": "3시간 전"
+        }
+      ]
+    },
+    {
+      "id": "t2",
+      "title": "월드컵 예선",
+      "approxTraffic": "8,500+",
+      "image": "https://via.placeholder.com/640x360?text=WorldCup",
+      "articles": [
+        {
+          "title": "대표팀, 극적인 역전승",
+          "url": "https://news.example.com/c",
+          "source": "SBS",
+          "snippet": "후반 추가시간에 역전골이 터지며...",
+          "image": "https://images.unsplash.com/photo-1522778119026-d647f0596c20",
+          "publishedAt": "2시간 전"
+        }
+      ]
+    },
+    {
+      "id": "t3",
+      "title": "비트코인",
+      "approxTraffic": "5,600+",
+      "image": "https://via.placeholder.com/640x360?text=Bitcoin",
+      "articles": []
+    }
+  ]
+}
+
