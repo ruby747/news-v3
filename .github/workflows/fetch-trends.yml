@@ -20,10 +20,7 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install parser
-        run: npm i fast-xml-parser@^4 --no-save
-
-      - name: Fetch Google Trends RSS and build JSON
+      - name: Fetch Google Trends Realtime and build JSON
         run: node scripts/fetch-trends.mjs
 
       - name: Commit changes
@@ -37,4 +34,3 @@ jobs:
           else
             echo "No changes to commit."
           fi
-

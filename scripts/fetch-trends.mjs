@@ -13,21 +13,29 @@ async function ensureDir(path) {
 }
 
 async function main() {
-  const rtUrl = 'https://trends.google.com/trends/api/realtimetrends?hl=ko&tz=-540&cat=all&geo=KR';
+  const params = new URLSearchParams({
+    hl: 'ko',
+    tz: '-540',
+    cat: 'all',
+    geo: 'KR',
+    fi: '15',
+    fs: '15',
+    ri: '300',
+    rs: '20',
+    sort: '0',
+  });
+  const rtUrl = `https://trends.google.com/trends/api/realtimetrends?${params.toString()}`;
   const outPath = resolve(process.cwd(), 'public/data/trends_kr.json');
-
-  // Install fast-xml-parser dynamically if not present (Action step will npm i before)
-  let XMLParser;
-  try {
-    ({ XMLParser } = await import('fast-xml-parser'));
-  } catch (e) {
-    console.error('fast-xml-parser not found. Please install it.');
-    process.exit(1);
-  }
-
-  const res = await fetch(rtUrl, { headers: { 'User-Agent': 'GitHubAction/TrendsFetcher' } });
+  const res = await fetch(rtUrl, {
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+      'Accept': '*/*',
+      'Referer': 'https://trends.google.com/trends/trendingsearches/realtime?geo=KR&hl=ko',
+    },
+  });
   if (!res.ok) {
-    throw new Error(`Failed to fetch realtime trends: ${res.status} ${res.statusText}`);
+    const body = await res.text().catch(() => '');
+    throw new Error(`Failed to fetch realtime trends: ${res.status} ${res.statusText} | body: ${body.slice(0,200)}`);
   }
   let text = await res.text();
   // Remove XSSI prefix ")]}'" if present
