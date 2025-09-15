@@ -9,16 +9,21 @@
 
 프론트엔드는 `public/data/trends_kr.json`을 먼저 시도하고, 없으면 `public/data/trends_kr.sample.json`으로 폴백합니다.
 
-## 데이터 파이프라인 (GitHub Actions, 리얼타임)
+## 데이터 파이프라인 (GitHub Actions)
 
 - 워크플로: `.github/workflows/fetch-trends.yml`
 - 스크립트: `scripts/fetch-trends.mjs`
 - 출력 파일: `public/data/trends_kr.json`
 
 작동 방식:
-- 30분 간격으로 Google Trends Real-time(KR, cat=all)을 가져와 파싱합니다.
+- 30분 간격으로 먼저 Google Trends Daily RSS(KR)를 가져오고, 실패 시 Real-time(KR)로 폴백합니다. 둘 다 실패하면 샘플 JSON으로 대체합니다.
 - 각 토픽의 제목, 대략적 검색량(가능 시), 대표 이미지(가능 시), 관련 뉴스(제목/출처/URL/스니펫/이미지)를 JSON으로 저장합니다.
 - 변경이 있으면 커밋/푸시합니다.
+
+## UI 메모
+
+- 상단에 데이터 소스와 토픽 개수를 표시합니다.
+- 토픽은 처음 20개만 보여주고 “더보기” 버튼으로 20개씩 추가 로드합니다.
 
 ## 배포 (GitHub Pages)
 

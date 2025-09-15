@@ -126,16 +126,17 @@ async function fetchDailyRssKR() {
 async function main() {
   const outPath = resolve(process.cwd(), 'public/data/trends_kr.json');
   let data;
+  // Prefer Daily RSS for breadth; fallback to realtime; then sample
   try {
-    data = await fetchRealtimeKR();
-    console.log('Fetched realtime trends.');
+    data = await fetchDailyRssKR();
+    console.log('Fetched daily RSS trends.');
   } catch (e) {
-    console.warn('Realtime fetch failed:', e?.message || e);
+    console.warn('Daily RSS fetch failed:', e?.message || e);
     try {
-      data = await fetchDailyRssKR();
-      console.log('Fell back to daily RSS.');
+      data = await fetchRealtimeKR();
+      console.log('Fell back to realtime trends.');
     } catch (e2) {
-      console.warn('Daily RSS fetch failed:', e2?.message || e2);
+      console.warn('Realtime fetch failed:', e2?.message || e2);
       // As a last resort, copy sample JSON if exists
       const sample = resolve(process.cwd(), 'public/data/trends_kr.sample.json');
       try {
@@ -145,7 +146,7 @@ async function main() {
         console.log('Wrote sample trends JSON as fallback.');
         process.exit(0);
       } catch (e3) {
-        console.error('No data produced (realtime/rss/sample failed).');
+        console.error('No data produced (rss/realtime/sample failed).');
         process.exit(1);
       }
     }

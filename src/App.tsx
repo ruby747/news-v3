@@ -8,6 +8,7 @@ export function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeId, setActiveId] = useState<string | undefined>(undefined);
+  const [visibleCount, setVisibleCount] = useState<number>(20);
   const [dataSource, setDataSource] = useState<string | undefined>(undefined);
   const [topics, setTopics] = useState<
     Array<{
@@ -34,6 +35,7 @@ export function App() {
         setTopics(data.topics ?? []);
         setDataSource(data.source);
         setActiveId(data.topics?.[0]?.id);
+        setVisibleCount(20);
       } catch (e: any) {
         setError(e?.message ?? '오류가 발생했습니다.');
       } finally {
@@ -59,7 +61,17 @@ export function App() {
             {topics?.length ? <span className="ml-2">토픽 {topics.length}개</span> : null}
           </div>
         )}
-        <TrendingTopics topics={topics} activeId={activeId} onSelect={setActiveId} />
+        <TrendingTopics topics={topics.slice(0, visibleCount)} activeId={activeId} onSelect={setActiveId} />
+        {topics.length > visibleCount && (
+          <div className="flex justify-center mt-4">
+            <button
+              className="px-4 py-2 text-sm font-medium text-blue-600 border border-blue-200 rounded hover:bg-blue-50"
+              onClick={() => setVisibleCount(c => c + 20)}
+            >
+              더보기
+            </button>
+          </div>
+        )}
         {loading ? (
           <div className="text-gray-500">불러오는 중...</div>
         ) : (
